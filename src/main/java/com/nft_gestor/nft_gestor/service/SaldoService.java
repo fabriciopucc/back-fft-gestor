@@ -16,16 +16,7 @@ public class SaldoService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private DespesaRepository despesaRepository;
-
-    @Autowired
-    private CategoriaRepository categoriaRepository;
-
-    @Autowired
     private CartaoRepository cartaoRepository;
-
-    @Autowired
-    private DiaRepository diaRepository;
 
 
 

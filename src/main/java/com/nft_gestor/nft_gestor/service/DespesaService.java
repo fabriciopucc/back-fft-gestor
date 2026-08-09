@@ -1,14 +1,18 @@
 package com.nft_gestor.nft_gestor.service;
 
+import com.nft_gestor.nft_gestor.dto.request.AdicionarAcaoRequestDTO;
 import com.nft_gestor.nft_gestor.dto.request.SalvarDespesaRequestDTO;
 import com.nft_gestor.nft_gestor.dto.request.LancarDespesaRequestDTO;
 import com.nft_gestor.nft_gestor.exception.RequestException;
 import com.nft_gestor.nft_gestor.model.*;
+import com.nft_gestor.nft_gestor.repository.CartaoRepository;
 import com.nft_gestor.nft_gestor.repository.DespesaRepository;
+import com.nft_gestor.nft_gestor.repository.DiaRepository;
 import com.nft_gestor.nft_gestor.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,7 +22,13 @@ public class DespesaService {
     private DespesaRepository despesaRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private  UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private DiaRepository diaRepository;
+
+    @Autowired
+    private CartaoRepository cartaoRepository;
 
 
     public List<DespesaModel> listarDespesasDeUmUsuario(Long codigo){
@@ -54,38 +64,34 @@ public class DespesaService {
 
     public String lancarDespesaDeUmUsuario(LancarDespesaRequestDTO lancarDespesaRequestDTO){
         UsuarioModel usuario = buscarUsuarioPorCodigo(lancarDespesaRequestDTO.getCodigoUsuario());
+        DiaModel diaAtual = buscarDiaAtualPorData(LocalDate.now());
+        CartaoModel cartao = buscarCartaoPorCodigo(lancarDespesaRequestDTO.getCodigoCartao());
 
-        if(usuario.getDias().isEmpty()){
-            throw new RequestException("Desculpe, para lançar uma despea é necessário ter iniciado ao menos 1 dia!");
-        }else{
-            AcaoModel lancamento = new AcaoModel(
-                null,
-                "despesa",
-                lancarDespesaRequestDTO.getHorario(),
-                "despesa",
-                lancarDespesaRequestDTO.getIcon(),
-                lancarDespesaRequestDTO.getValor(),
-                "",
-                null
-            );
 
-            DiaModel ultimoDia = usuario.getDias().get(usuario.getDias().size() - 1);
+        AdicionarAcaoRequestDTO adicionarAcaoRequest = new AdicionarAcaoRequestDTO(
+            diaAtual.getCodigo(),
+            cartao.getCodigo(),
+            cartao.getApelido(),
+            "despesa",
+            lancarDespesaRequestDTO.getFormaPagamento(),
+            lancarDespesaRequestDTO.getIcon(),
+            lancarDespesaRequestDTO.getValor(),
+            null
+        );
 
-            ultimoDia.getAcoes().add(lancamento);
 
-            ultimoDia.setSaldoAtual(ultimoDia.getSaldoAtual() - lancarDespesaRequestDTO.getValor());
-            usuario.setSaldoAtual(usuario.getSaldoAtual() - lancarDespesaRequestDTO.getValor());
-
-            usuarioRepository.save(usuario);
-
-            return "Despesa lançada com sucesso!";
-        }
+        return  "Aa";
     }
 
 
     //Métodos privados
     private UsuarioModel buscarUsuarioPorCodigo(Long codigo){
         return usuarioRepository.findByCodigo(codigo)
+                .orElseThrow(() -> new RequestException("Usuário inexistente!"));
+    }
+
+    private CartaoModel buscarCartaoPorCodigo(Long codigo){
+        return cartaoRepository.findByCodigo(codigo)
                 .orElseThrow(() -> new RequestException("Usuário inexistente!"));
     }
 
@@ -97,5 +103,10 @@ public class DespesaService {
     private DespesaModel buscarDespesaPorCodigo(Long codigo){
         return despesaRepository.findByCodigo(codigo)
                 .orElseThrow(() -> new RequestException("Despesa inexistente!"));
+    }
+
+    private DiaModel buscarDiaAtualPorData(LocalDate data){
+        return diaRepository.findByData(data)
+                .orElseThrow(() -> new RequestException("O dia atual ainda não foi adicionado no menu Gestão. Para você possa quitar essa compra, adicione o dia atual no menu Gestão!"));
     }
 }

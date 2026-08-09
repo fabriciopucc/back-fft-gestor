@@ -23,7 +23,7 @@ public class DiaService {
     private UsuarioRepository usuarioRepository;
 
 
-    public DiaModel criarDia(CriarDiaRequestDTO criarDiaRequestDTO){
+    public List<DiaModel> criarDia(CriarDiaRequestDTO criarDiaRequestDTO){
         UsuarioModel usuario = buscarUsuarioPorCodigo(criarDiaRequestDTO.getCodigoUsuario());
 
         LocalDate data = LocalDate.parse(criarDiaRequestDTO.getData());
@@ -48,7 +48,7 @@ public class DiaService {
         usuario.getDias().add(dia);
         usuarioRepository.save(usuario);
 
-        return dia;
+        return usuario.getDias();
     }
 
     public List<DiaModel> listarDiasDeUmUsuario(Long codigoUsuario){

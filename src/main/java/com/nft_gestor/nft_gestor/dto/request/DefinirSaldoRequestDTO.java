@@ -1,6 +1,5 @@
 package com.nft_gestor.nft_gestor.dto.request;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

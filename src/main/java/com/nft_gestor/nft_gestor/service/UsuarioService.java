@@ -4,6 +4,7 @@ import com.nft_gestor.nft_gestor.dto.request.AlterarSenhaRequestDTO;
 import com.nft_gestor.nft_gestor.dto.request.FazerLoginRequestDTO;
 import com.nft_gestor.nft_gestor.dto.request.SalvarUsuarioRequestDTO;
 import com.nft_gestor.nft_gestor.dto.request.RecuperarSenhaRequestDTO;
+import com.nft_gestor.nft_gestor.dto.response.LoginResponseDTO;
 import com.nft_gestor.nft_gestor.exception.RequestException;
 import com.nft_gestor.nft_gestor.model.CodigoConfirmacaoModel;
 import com.nft_gestor.nft_gestor.model.UsuarioModel;
@@ -39,6 +40,10 @@ public class UsuarioService {
     }
 
     public UsuarioModel salvarUsuario(SalvarUsuarioRequestDTO salvarUsuarioRequestDTO){
+        if(salvarUsuarioRequestDTO.getNome().split(" ").length <= 1){
+            throw new RequestException("Digite o nome completo!!");
+        }
+
         if(usuarioRepository.findByEmail(salvarUsuarioRequestDTO.getEmail().trim()).isPresent()){
             throw new RequestException("Desculpe, este email já esta sendo utilizado!");
         }
@@ -50,6 +55,7 @@ public class UsuarioService {
         if(validarCodigoDeConfirmacao(salvarUsuarioRequestDTO.getEmail().trim(), salvarUsuarioRequestDTO.getCodigoConfirmacao())){
             UsuarioModel usuario = new UsuarioModel(
                 null,
+                salvarUsuarioRequestDTO.getNome(),
                 salvarUsuarioRequestDTO.getEmail().trim(),
                 encoder.encode(salvarUsuarioRequestDTO.getSenha()),
                 0.0,
@@ -67,11 +73,15 @@ public class UsuarioService {
         }
     }
 
-    public Long fazerLogin(FazerLoginRequestDTO fazerLoginRequestDTO){
+    public LoginResponseDTO fazerLogin(FazerLoginRequestDTO fazerLoginRequestDTO){
         UsuarioModel usuario = buscarUsuarioPorEmail(fazerLoginRequestDTO.getEmail().trim());
 
         if(encoder.matches(fazerLoginRequestDTO.getSenha(), usuario.getSenha())){
-            return usuario.getCodigo();
+            return new LoginResponseDTO(
+                usuario.getCodigo(),
+                usuario.getEmail(),
+                usuario.getNome()
+            );
         }
         else{
             throw new RequestException("Senha incorreta!");

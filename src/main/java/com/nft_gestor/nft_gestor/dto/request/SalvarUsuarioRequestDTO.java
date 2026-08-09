@@ -8,6 +8,7 @@ import lombok.Setter;
 public class SalvarUsuarioRequestDTO {
 
     private Integer codigoConfirmacao;
+    private String nome;
     private String email;
     private String senha;
 }

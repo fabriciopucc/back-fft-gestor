@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class AcaoService {
@@ -135,7 +136,7 @@ public class AcaoService {
         return acao;
     }
 
-    public AcaoModel reverterAcao(Long codigo){
+    public List<DiaModel> reverterAcao(Long codigo){
         AcaoModel acao = buscarAcaoPeloCodigo(codigo);
 
         CartaoModel cartao = new CartaoModel();
@@ -186,7 +187,7 @@ public class AcaoService {
         dia.getAcoes().remove(acao);
 
         usuarioRepository.save(usuario);
-        return acao;
+        return usuario.getDias();
     }
 
 

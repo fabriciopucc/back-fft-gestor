@@ -16,7 +16,7 @@ public class DiaController {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<?> listarDiasDeUmUsuario(@PathVariable Long codigo){
-        return new ResponseEntity<>(diaService.listarDiasDeUmUsuario(codigo), HttpStatus.CREATED);
+        return new ResponseEntity<>(diaService.listarDiasDeUmUsuario(codigo), HttpStatus.OK);
     }
 
     @PostMapping
