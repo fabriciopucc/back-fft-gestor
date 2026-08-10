@@ -67,6 +67,8 @@ public class DespesaService {
     public String lancarDespesaDeUmUsuario(LancarDespesaRequestDTO lancarDespesaRequestDTO){
         DiaModel diaAtual = buscarDiaAtualPorData(LocalDate.now());
         CartaoModel cartao = new CartaoModel();
+        DespesaModel despesa = buscarDespesaPorCodigo(lancarDespesaRequestDTO.getCodigo());
+
         Long codigoCartao = null;
         String apelidoCartao = null;
 
@@ -83,7 +85,7 @@ public class DespesaService {
             "despesa",
             lancarDespesaRequestDTO.getFormaPagamento(),
         0,
-            lancarDespesaRequestDTO.getValorALancar(),
+            despesa.getValor(),
             null
         );
 

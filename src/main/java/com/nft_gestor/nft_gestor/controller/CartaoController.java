@@ -2,11 +2,17 @@ package com.nft_gestor.nft_gestor.controller;
 
 import com.nft_gestor.nft_gestor.dto.request.CriarCartaoRequestDTO;
 import com.nft_gestor.nft_gestor.dto.request.LancarCompraNoCartaoRequestDTO;
+import com.nft_gestor.nft_gestor.dto.response.CartaoResponseDTO;
+import com.nft_gestor.nft_gestor.model.CartaoModel;
 import com.nft_gestor.nft_gestor.service.CartaoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/cartao")
@@ -15,9 +21,13 @@ public class CartaoController {
     @Autowired
     private CartaoService cartaoService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
+
     @GetMapping(path = "/cartoesDeUmUsuario/{codigoUsuario}")
     public ResponseEntity<?> listarCartoesDeUmUsuario(@PathVariable Long codigoUsuario){
-        return new ResponseEntity<>(cartaoService.listarCartoesDeUmUsuario(codigoUsuario), HttpStatus.OK);
+        return new ResponseEntity<>(converterEmListaDeCartaoResponseDTO(cartaoService.listarCartoesDeUmUsuario(codigoUsuario)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{codigo}")
@@ -44,5 +54,17 @@ public class CartaoController {
     @DeleteMapping
     public ResponseEntity<?> excluirCartoes(){
         return new ResponseEntity<>(cartaoService.excluirTodosCartoes(), HttpStatus.CREATED);
+    }
+
+
+    //MEtodos privados
+    private List<CartaoResponseDTO> converterEmListaDeCartaoResponseDTO(List<CartaoModel> cartoes){
+        List<CartaoResponseDTO> listaCartoesRespopnse = new ArrayList<>();
+
+        for(CartaoModel cartao: cartoes){
+            listaCartoesRespopnse.add(modelMapper.map(cartao, CartaoResponseDTO.class));
+        }
+
+        return listaCartoesRespopnse;
     }
 }
