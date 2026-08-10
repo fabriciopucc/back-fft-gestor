@@ -9,5 +9,5 @@ public class SalvarCategoriaRequestDTO {
 
     private Long codigoUsuario;
     private String nome;
-    private String icon;
+    private Integer indiceIcon;
 }

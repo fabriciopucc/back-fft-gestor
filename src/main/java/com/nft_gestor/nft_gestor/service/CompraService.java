@@ -60,7 +60,7 @@ public class CompraService {
             cartao.getApelido(),
             compra.getDescricao(),
             "quitacaoCartao",
-            "iconQuitacaoCartao",
+            0,
             compra.getValor(),
             compra.getIdCompra()
         );

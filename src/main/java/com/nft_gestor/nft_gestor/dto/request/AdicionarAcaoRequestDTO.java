@@ -16,7 +16,7 @@ public class AdicionarAcaoRequestDTO {
     private String apelidoCartao;
     private String categoria;
     private String tipoTransacao;
-    private String icon;
+    private Integer indiceIcon;
     private Double valor;
     private Long idCompra;
 }

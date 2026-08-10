@@ -20,7 +20,7 @@ public class AcaoModel {
     private String categoria;
     private String horario;
     private String tipoTransacao;
-    private String icon;
+    private Integer indiceIcon;
     private Double valor;
     private String apelidoCartao;
     private Long idCompra;

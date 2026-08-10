@@ -39,7 +39,7 @@ public class CategoriaService {
         CategoriaModel categoria = new CategoriaModel(
             null,
             salvarCategoriaRequestDTO.getNome(),
-            salvarCategoriaRequestDTO.getIcon()
+            salvarCategoriaRequestDTO.getIndiceIcon()
         );
 
         usuario.getCategorias().add(categoria);

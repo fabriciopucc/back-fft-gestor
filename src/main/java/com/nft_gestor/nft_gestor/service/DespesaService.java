@@ -30,6 +30,8 @@ public class DespesaService {
     @Autowired
     private CartaoRepository cartaoRepository;
 
+    @Autowired AcaoService acaoService;
+
 
     public List<DespesaModel> listarDespesasDeUmUsuario(Long codigo){
         UsuarioModel usuario = buscarUsuarioPorCodigo(codigo);
@@ -63,24 +65,30 @@ public class DespesaService {
     }
 
     public String lancarDespesaDeUmUsuario(LancarDespesaRequestDTO lancarDespesaRequestDTO){
-        UsuarioModel usuario = buscarUsuarioPorCodigo(lancarDespesaRequestDTO.getCodigoUsuario());
         DiaModel diaAtual = buscarDiaAtualPorData(LocalDate.now());
-        CartaoModel cartao = buscarCartaoPorCodigo(lancarDespesaRequestDTO.getCodigoCartao());
+        CartaoModel cartao = new CartaoModel();
+        Long codigoCartao = null;
+        String apelidoCartao = null;
 
+        if(lancarDespesaRequestDTO.getFormaPagamento().equals("cartaoCredito")){
+            cartao = buscarCartaoPorCodigo(lancarDespesaRequestDTO.getCodigoCartao());
+            codigoCartao = cartao.getCodigo();
+            apelidoCartao = cartao.getApelido();
+        }
 
         AdicionarAcaoRequestDTO adicionarAcaoRequest = new AdicionarAcaoRequestDTO(
             diaAtual.getCodigo(),
-            cartao.getCodigo(),
-            cartao.getApelido(),
+            codigoCartao,
+            apelidoCartao,
             "despesa",
             lancarDespesaRequestDTO.getFormaPagamento(),
-            lancarDespesaRequestDTO.getIcon(),
-            lancarDespesaRequestDTO.getValor(),
+        0,
+            lancarDespesaRequestDTO.getValorALancar(),
             null
         );
 
-
-        return  "Aa";
+        acaoService.adicionarAcaoEmUmDia(adicionarAcaoRequest);
+        return  "Lançaca com sucesso!";
     }
 
 
@@ -92,7 +100,7 @@ public class DespesaService {
 
     private CartaoModel buscarCartaoPorCodigo(Long codigo){
         return cartaoRepository.findByCodigo(codigo)
-                .orElseThrow(() -> new RequestException("Usuário inexistente!"));
+                .orElseThrow(() -> new RequestException("Cartão inexistente!"));
     }
 
     private UsuarioModel buscarUsuarioPorCodigoDeDespesa(Long codigoDespesa){

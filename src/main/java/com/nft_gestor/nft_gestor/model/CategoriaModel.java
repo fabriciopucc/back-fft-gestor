@@ -19,5 +19,5 @@ public class CategoriaModel {
     private Long codigo;
 
     private String nome;
-    private String icon;
+    private Integer indiceIcon;
 }

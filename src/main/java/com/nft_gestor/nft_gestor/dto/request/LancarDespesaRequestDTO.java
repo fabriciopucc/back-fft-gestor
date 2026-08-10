@@ -7,10 +7,7 @@ import lombok.Setter;
 @Setter
 public class LancarDespesaRequestDTO {
 
-    private Long codigoUsuario;
     private String formaPagamento;
     private Long codigoCartao;
-    private Double valor;
-    private String horario;
-    private String icon;
+    private Double valorALancar;
 }

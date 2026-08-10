@@ -123,7 +123,7 @@ public class AcaoService {
                 adicionarAcaoRequestDTO.getCategoria(),
                 formatarHorario.format(LocalDateTime.now()),
                 adicionarAcaoRequestDTO.getTipoTransacao(),
-                adicionarAcaoRequestDTO.getIcon(),
+                adicionarAcaoRequestDTO.getIndiceIcon(),
                 adicionarAcaoRequestDTO.getValor(),
                 adicionarAcaoRequestDTO.getApelidoCartao(),
                 idCompra
@@ -187,7 +187,7 @@ public class AcaoService {
         dia.getAcoes().remove(acao);
 
         usuarioRepository.save(usuario);
-        return usuario.getDias();
+        return diaRepository.listarDiasDeUmUsuario(usuario.getCodigo());
     }
 
 
