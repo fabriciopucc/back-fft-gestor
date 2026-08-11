@@ -52,7 +52,7 @@ public class CodigoConfirmacaoService {
 
 
     //Métodos privados
-    private Boolean enviarEmailComCodigoDoUsuario(String email, Integer codigo, String cabecalho, String acao) {
+    /*private Boolean enviarEmailComCodigoDoUsuario(String email, Integer codigo, String cabecalho, String acao) {
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setTo(email);
@@ -64,6 +64,33 @@ public class CodigoConfirmacaoService {
             return true;
         } catch (Exception e) {
             throw new RequestException("Erro ao enviar o código de confirmação para o email informado!");
+        }*/
+    private Boolean enviarEmailComCodigoDoUsuario(
+            String email,
+            Integer codigo,
+            String cabecalho,
+            String acao
+    ) {
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        message.setTo(email);
+        message.setSubject(cabecalho);
+        message.setText(
+                "O seu código de " + acao + " é: " + codigo +
+                        "\nEle expira em 10 minutos!"
+        );
+
+        try {
+            mailSender.send(message);
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            throw new RequestException(
+                    "Erro ao enviar o código de confirmação para o email informado!"
+            );
         }
+    }
     }
 }
