@@ -18,7 +18,9 @@ public class DespesaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @Column(length = 20)
     private String descricao;
+    @Column(length = 2)
     private Integer diaVencimento;
     private Double valor;
 }

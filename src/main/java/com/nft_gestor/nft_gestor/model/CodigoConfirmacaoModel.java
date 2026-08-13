@@ -20,9 +20,10 @@ public class CodigoConfirmacaoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @Column(length = 4)
     private Integer codigoConfirmacao;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 60)
     private String email;
 
     private LocalDateTime dataExpiracao;

@@ -18,6 +18,7 @@ public class CategoriaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @Column(length = 10)
     private String nome;
     private Integer indiceIcon;
 }

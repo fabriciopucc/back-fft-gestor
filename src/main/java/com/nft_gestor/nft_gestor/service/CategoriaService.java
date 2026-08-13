@@ -30,6 +30,10 @@ public class CategoriaService {
     public List<CategoriaModel>  salvarCategoria(SalvarCategoriaRequestDTO salvarCategoriaRequestDTO){
         UsuarioModel usuario = buscarUsuarioPorCodigo(salvarCategoriaRequestDTO.getCodigoUsuario());
 
+        if(usuario.getCategorias().size() >= 20){
+            throw new RequestException("Você só pode ter no máximo 20 categorias cadastradas!!");
+        }
+
         if(categoriaRepository.buscarCategoriaEmListaDeCategoriasDeUmUsuario(
             salvarCategoriaRequestDTO.getNome().toLowerCase(), usuario.getCodigo()).isPresent()
         ){

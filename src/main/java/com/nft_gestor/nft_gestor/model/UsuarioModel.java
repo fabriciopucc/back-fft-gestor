@@ -21,9 +21,11 @@ public class UsuarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @Column(length = 80)
     private String nome;
-    @Column(unique = true)
+    @Column(unique = true, length = 60)
     private String email;
+    @Column(length = 20)
     private String senha;
 
     private Double saldoInicial;

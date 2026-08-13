@@ -64,8 +64,12 @@ public class CartaoService {
             throw new RequestException("Você já possui um cartão com esse apelido!");
         }
 
-        if(criarCartaoRequest.getApelido().length() > 6){
-            throw new RequestException("O apelido só pode conter no máximo 6 caracteres!");
+        if(criarCartaoRequest.getApelido().length() > 8){
+            throw new RequestException("O apelido só pode conter no máximo 8 caracteres!");
+        }
+
+        if(usuario.getCartoes().size() >= 5){
+            throw new RequestException("Você só pode ter no máximo 5 cartões cadastrados!!");
         }
 
         CartaoModel cartao = new CartaoModel(

@@ -17,5 +17,5 @@ public class CartaoResponseDTO {
     private Integer ultimosDigitos;
     private Double limiteTotal;
     private Double limiteUtilizado;
-    private Integer cor;
+    private String cor;
 }

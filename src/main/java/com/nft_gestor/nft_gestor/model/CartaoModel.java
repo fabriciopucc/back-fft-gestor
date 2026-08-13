@@ -21,11 +21,15 @@ public class CartaoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @Column(length = 8)
     private String apelido;
+    @Column(length = 4)
     private Integer ultimosDigitos;
     private Double limiteTotal;
     private Double limiteUtilizado;
-    private Integer cor;
+
+    @Column(length = 10)
+    private String cor;
 
     @OneToMany(
         cascade = CascadeType.ALL,

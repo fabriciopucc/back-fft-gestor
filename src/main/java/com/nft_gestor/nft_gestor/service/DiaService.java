@@ -23,6 +23,12 @@ public class DiaService {
     private UsuarioRepository usuarioRepository;
 
 
+    public List<DiaModel> listarDiasDeUmUsuario(Long codigoUsuario){
+        UsuarioModel usuario = buscarUsuarioPorCodigo(codigoUsuario);
+
+        return diaRepository.listarDiasDeUmUsuario(usuario.getCodigo());
+    }
+
     public List<DiaModel> criarDia(CriarDiaRequestDTO criarDiaRequestDTO){
         UsuarioModel usuario = buscarUsuarioPorCodigo(criarDiaRequestDTO.getCodigoUsuario());
 
@@ -47,12 +53,6 @@ public class DiaService {
 
         usuario.getDias().add(dia);
         usuarioRepository.save(usuario);
-
-        return usuario.getDias();
-    }
-
-    public List<DiaModel> listarDiasDeUmUsuario(Long codigoUsuario){
-        UsuarioModel usuario = buscarUsuarioPorCodigo(codigoUsuario);
 
         return diaRepository.listarDiasDeUmUsuario(usuario.getCodigo());
     }

@@ -35,11 +35,16 @@ public class DespesaService {
 
     public List<DespesaModel> listarDespesasDeUmUsuario(Long codigo){
         UsuarioModel usuario = buscarUsuarioPorCodigo(codigo);
-        return usuario.getDespesas();
+
+        return despesaRepository.listarDespesasDeUmUsuario(usuario.getCodigo());
     }
 
     public List<DespesaModel> salvarDespesaDeUmUsuario(SalvarDespesaRequestDTO salvarDespesaRequestDTO){
         UsuarioModel usuario = buscarUsuarioPorCodigo(salvarDespesaRequestDTO.getCodigoUsuario());
+
+        if(usuario.getDespesas().size() >= 20){
+            throw new RequestException("Você só pode ter no máximo 20 despesas cadastradas!!");
+        }
 
         DespesaModel despesa = new DespesaModel(
             null,
@@ -51,7 +56,7 @@ public class DespesaService {
         usuario.getDespesas().add(despesa);
         usuarioRepository.save(usuario);
 
-        return usuario.getDespesas();
+        return despesaRepository.listarDespesasDeUmUsuario(usuario.getCodigo());
     }
 
     public List<DespesaModel> excluirDespesaPorCodigo(Long codigo){

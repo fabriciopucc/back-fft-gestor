@@ -18,7 +18,9 @@ public class CompraModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @Column(length = 2)
     private Integer dia;
+    @Column(length = 20)
     private String descricao;
     private Double valor;
     private Boolean quitado;

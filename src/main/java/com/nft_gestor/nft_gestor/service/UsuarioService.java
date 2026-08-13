@@ -48,8 +48,8 @@ public class UsuarioService {
             throw new RequestException("Desculpe, este email já esta sendo utilizado!");
         }
 
-        if(salvarUsuarioRequestDTO.getSenha().length() < 8){
-            throw new RequestException("A senha deve ter ao menos 8 digitos!");
+        if(salvarUsuarioRequestDTO.getSenha().length() < 8 || salvarUsuarioRequestDTO.getSenha().length() > 20){
+            throw new RequestException("A senha deve ter no minímo 8 e no máximo 20 digitos!");
         }
 
         if(validarCodigoDeConfirmacao(salvarUsuarioRequestDTO.getEmail().trim(), salvarUsuarioRequestDTO.getCodigoConfirmacao())){
@@ -91,8 +91,8 @@ public class UsuarioService {
     public UsuarioModel recuperarSenhaUsuario(RecuperarSenhaRequestDTO recuperarSenhaRequest){
         UsuarioModel usuario = buscarUsuarioPorEmail(recuperarSenhaRequest.getEmail().trim());
 
-        if(recuperarSenhaRequest.getNovaSenha().length() < 8){
-            throw new RequestException("A nova senha deve ter ao menos 8 digitos!");
+        if(recuperarSenhaRequest.getNovaSenha().length() < 8 || recuperarSenhaRequest.getNovaSenha().length() > 20){
+            throw new RequestException("A nova senha deve ter no minímo 8 e no máximo 20 digitos!");
         }
 
         if(validarCodigoDeConfirmacao(recuperarSenhaRequest.getEmail().trim(), recuperarSenhaRequest.getCodigoConfirmacao())){
@@ -107,8 +107,8 @@ public class UsuarioService {
     public UsuarioModel alterarSenha(AlterarSenhaRequestDTO alterarSenhaRequest){
         UsuarioModel usuario = buscarUsuarioPorCodigo(alterarSenhaRequest.getCodigo());
 
-        if(alterarSenhaRequest.getNovaSenha().length() < 8){
-            throw new RequestException("A nova senha deve conter ao menos 8 digitos!");
+        if(alterarSenhaRequest.getNovaSenha().length() < 8 || alterarSenhaRequest.getNovaSenha().length() > 20){
+            throw new RequestException("A nova senha deve conter no minímo 8 e no máximo 20 digitos!");
         }
         if(!alterarSenhaRequest.getNovaSenha().equals(alterarSenhaRequest.getConfirmacaoNovaSenha())){
             throw new RequestException("A nova senha e sua confirmação devem ser iguais!!");

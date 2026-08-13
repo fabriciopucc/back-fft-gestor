@@ -11,5 +11,5 @@ public class CriarCartaoRequestDTO {
     private String apelido;
     private Integer ultimosDigitos;
     private Double limiteTotal;
-    private Integer cor;
+    private String cor;
 }

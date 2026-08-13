@@ -19,6 +19,7 @@ public class MetricasUsoCartaoModel {
     private Long codigo;
 
     private Long codigoCartao;
+    @Column(length = 8)
     private String apelidoCartao;
     private Double limiteUsadoInicial;
     private Double limiteUsadoAtual;

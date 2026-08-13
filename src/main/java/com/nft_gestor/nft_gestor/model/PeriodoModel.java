@@ -21,7 +21,9 @@ public class PeriodoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @Column(length = 2)
     private Integer mes;
+    @Column(length = 4)
     private Integer ano;
 
     @OneToMany(
